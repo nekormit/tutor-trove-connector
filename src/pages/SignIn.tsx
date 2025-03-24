@@ -20,7 +20,7 @@ const SignIn: React.FC = () => {
                   Tutor<span className="text-rmit-lightGray">Trove</span>
                 </h1>
               </Link>
-              <p className="mt-2 text-sm text-white/80">
+              <p className="mt-2 text-sm text-white">
                 RMIT University Melbourne City Campus
               </p>
             </AnimatedContainer>
