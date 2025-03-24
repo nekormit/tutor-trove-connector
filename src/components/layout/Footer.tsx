@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { MapPin, Phone, Mail, ExternalLink } from 'lucide-react';
 
 const Footer: React.FC = () => {
@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
-            <Link to="/" className="font-display text-xl font-semibold tracking-tight">
+            <Link href="/" className="font-display text-xl font-semibold tracking-tight">
               Tutor<span className="text-rmit-red">Trove</span>
             </Link>
             <p className="mt-2 text-sm text-gray-300 max-w-md">
@@ -23,12 +23,12 @@ const Footer: React.FC = () => {
             <h3 className="font-medium text-white mb-3">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/" className="text-sm text-gray-300 hover:text-rmit-red transition-colors">
+                <Link href="/" className="text-sm text-gray-300 hover:text-rmit-red transition-colors">
                   Home
                 </Link>
               </li>
               <li>
-                <Link to="/signin" className="text-sm text-gray-300 hover:text-rmit-red transition-colors">
+                <Link href="/signin" className="text-sm text-gray-300 hover:text-rmit-red transition-colors">
                   Sign In
                 </Link>
               </li>

@@ -1,175 +1,146 @@
 
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, GraduationCap } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useAuth } from '@/hooks/useAuth';
-import AnimatedContainer from '@/components/ui/AnimatedContainer';
+'use client';
+
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { Menu, X, LogOut } from 'lucide-react';
+import { useAuth } from '@/contexts/auth-context';
 
 const Header: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isAuthenticated, userType, logout } = useAuth();
-  const location = useLocation();
-  
-  // Handle scroll effect for transparent header
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const pathname = usePathname();
 
-  // Close mobile menu when changing routes
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [location.pathname]);
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const closeMenu = () => setIsMenuOpen(false);
 
   return (
-    <header 
-      className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out',
-        isScrolled ? 'py-4 bg-white/80 dark:bg-black/80 backdrop-blur-lg border-b' : 'py-6 bg-transparent'
-      )}
-    >
-      <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
-        <AnimatedContainer animation="fade-in" className="flex items-center gap-2">
-          <GraduationCap className="h-6 w-6 text-rmit-red" />
-          <Link 
-            to="/" 
-            className="font-display text-xl font-semibold tracking-tight transition-colors"
-          >
-            Tutor<span className="text-rmit-red">Trove</span>
-          </Link>
-        </AnimatedContainer>
-
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
-          <AnimatedContainer animation="slide-down" delay={100}>
-            <Link to="/" className={cn(
-              "text-sm font-medium transition-colors hover:text-rmit-red",
-              location.pathname === "/" ? "text-rmit-red" : "text-muted-foreground"
-            )}>
-              Home
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center">
+            <Link href="/" className="flex items-center">
+              <span className="font-display text-xl font-semibold tracking-tight">
+                Tutor<span className="text-rmit-red">Trove</span>
+              </span>
             </Link>
-          </AnimatedContainer>
-          
-          {!isAuthenticated && (
-            <AnimatedContainer animation="slide-down" delay={200}>
-              <Link to="/signin" className={cn(
-                "text-sm font-medium transition-colors hover:text-rmit-red",
-                location.pathname === "/signin" ? "text-rmit-red" : "text-muted-foreground"
-              )}>
-                Sign In
-              </Link>
-            </AnimatedContainer>
-          )}
-          
-          {isAuthenticated && userType === 'tutor' && (
-            <AnimatedContainer animation="slide-down" delay={300}>
-              <Link to="/tutor-dashboard" className={cn(
-                "text-sm font-medium transition-colors hover:text-rmit-red",
-                location.pathname === "/tutor-dashboard" ? "text-rmit-red" : "text-muted-foreground"
-              )}>
-                Dashboard
-              </Link>
-            </AnimatedContainer>
-          )}
-          
-          {isAuthenticated && userType === 'lecturer' && (
-            <AnimatedContainer animation="slide-down" delay={300}>
-              <Link to="/lecturer-dashboard" className={cn(
-                "text-sm font-medium transition-colors hover:text-rmit-red",
-                location.pathname === "/lecturer-dashboard" ? "text-rmit-red" : "text-muted-foreground"
-              )}>
-                Dashboard
-              </Link>
-            </AnimatedContainer>
-          )}
-          
-          {isAuthenticated && (
-            <AnimatedContainer animation="slide-down" delay={400}>
-              <button 
-                onClick={logout}
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-rmit-red"
-              >
-                Sign Out
-              </button>
-            </AnimatedContainer>
-          )}
-        </nav>
+          </div>
 
-        {/* Mobile Menu Button */}
-        <button 
-          className="md:hidden text-muted-foreground hover:text-foreground transition-colors"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-        >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden glass-card absolute top-full left-0 right-0 border-b">
-          <nav className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-            <Link 
-              to="/" 
-              className={cn(
-                "text-sm font-medium transition-colors hover:text-rmit-red",
-                location.pathname === "/" ? "text-rmit-red" : "text-muted-foreground"
-              )}
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-1">
+            <Link
+              href="/"
+              className={`px-3 py-2 rounded-md text-sm font-medium ${
+                pathname === '/' 
+                  ? 'text-rmit-red' 
+                  : 'text-gray-700 hover:text-rmit-red'
+              }`}
             >
               Home
             </Link>
             
-            {!isAuthenticated && (
-              <Link 
-                to="/signin" 
-                className={cn(
-                  "text-sm font-medium transition-colors hover:text-rmit-red",
-                  location.pathname === "/signin" ? "text-rmit-red" : "text-muted-foreground"
-                )}
+            {isAuthenticated ? (
+              <>
+                <Link
+                  href={userType === 'tutor' ? '/tutor-dashboard' : '/lecturer-dashboard'}
+                  className={`px-3 py-2 rounded-md text-sm font-medium ${
+                    pathname === '/tutor-dashboard' || pathname === '/lecturer-dashboard'
+                      ? 'text-rmit-red' 
+                      : 'text-gray-700 hover:text-rmit-red'
+                  }`}
+                >
+                  Dashboard
+                </Link>
+                
+                <button
+                  onClick={logout}
+                  className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-rmit-red"
+                >
+                  <span>Logout</span>
+                  <LogOut className="ml-1 h-4 w-4" />
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/signin"
+                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                  pathname === '/signin' 
+                    ? 'text-rmit-red' 
+                    : 'text-gray-700 hover:text-rmit-red'
+                }`}
               >
                 Sign In
               </Link>
             )}
-            
-            {isAuthenticated && userType === 'tutor' && (
-              <Link 
-                to="/tutor-dashboard" 
-                className={cn(
-                  "text-sm font-medium transition-colors hover:text-rmit-red",
-                  location.pathname === "/tutor-dashboard" ? "text-rmit-red" : "text-muted-foreground"
-                )}
-              >
-                Dashboard
-              </Link>
-            )}
-            
-            {isAuthenticated && userType === 'lecturer' && (
-              <Link 
-                to="/lecturer-dashboard" 
-                className={cn(
-                  "text-sm font-medium transition-colors hover:text-rmit-red",
-                  location.pathname === "/lecturer-dashboard" ? "text-rmit-red" : "text-muted-foreground"
-                )}
-              >
-                Dashboard
-              </Link>
-            )}
-            
-            {isAuthenticated && (
-              <button 
-                onClick={logout}
-                className="text-sm font-medium text-left text-muted-foreground transition-colors hover:text-rmit-red"
-              >
-                Sign Out
-              </button>
-            )}
           </nav>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden">
+            <button
+              onClick={toggleMenu}
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-rmit-red focus:outline-none"
+            >
+              <span className="sr-only">Open main menu</span>
+              {isMenuOpen ? (
+                <X className="block h-6 w-6" />
+              ) : (
+                <Menu className="block h-6 w-6" />
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Navigation */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-white pt-2 pb-3 space-y-1 shadow-lg">
+          <Link
+            href="/"
+            onClick={closeMenu}
+            className={`block px-3 py-2 rounded-md text-base font-medium ${
+              pathname === '/' ? 'text-rmit-red' : 'text-gray-700 hover:text-rmit-red'
+            }`}
+          >
+            Home
+          </Link>
+          
+          {isAuthenticated ? (
+            <>
+              <Link
+                href={userType === 'tutor' ? '/tutor-dashboard' : '/lecturer-dashboard'}
+                onClick={closeMenu}
+                className={`block px-3 py-2 rounded-md text-base font-medium ${
+                  pathname === '/tutor-dashboard' || pathname === '/lecturer-dashboard'
+                    ? 'text-rmit-red' 
+                    : 'text-gray-700 hover:text-rmit-red'
+                }`}
+              >
+                Dashboard
+              </Link>
+              
+              <button
+                onClick={() => {
+                  closeMenu();
+                  logout();
+                }}
+                className="flex w-full items-center px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-rmit-red"
+              >
+                <span>Logout</span>
+                <LogOut className="ml-1 h-4 w-4" />
+              </button>
+            </>
+          ) : (
+            <Link
+              href="/signin"
+              onClick={closeMenu}
+              className={`block px-3 py-2 rounded-md text-base font-medium ${
+                pathname === '/signin' ? 'text-rmit-red' : 'text-gray-700 hover:text-rmit-red'
+              }`}
+            >
+              Sign In
+            </Link>
+          )}
         </div>
       )}
     </header>

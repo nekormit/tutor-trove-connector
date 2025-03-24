@@ -1,10 +1,12 @@
 
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 
-interface AnimatedContainerProps extends React.HTMLAttributes<HTMLDivElement> {
+interface AnimatedContainerProps {
   children: React.ReactNode;
-  animation?: 'fade-in' | 'slide-up' | 'slide-down' | 'scale-in' | 'blur-in';
+  animation?: 'fade-in' | 'slide-up' | 'slide-in-right' | 'scale-in';
   delay?: number;
   className?: string;
 }
@@ -14,7 +16,6 @@ const AnimatedContainer: React.FC<AnimatedContainerProps> = ({
   animation = 'fade-in',
   delay = 0,
   className,
-  ...props
 }) => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -26,17 +27,40 @@ const AnimatedContainer: React.FC<AnimatedContainerProps> = ({
     return () => clearTimeout(timer);
   }, [delay]);
 
+  const getAnimationClass = () => {
+    if (!isVisible) return 'opacity-0';
+
+    switch (animation) {
+      case 'fade-in':
+        return 'animate-fade-in';
+      case 'slide-up':
+        return 'animate-fade-in';
+      case 'slide-in-right':
+        return 'animate-slide-in-right';
+      case 'scale-in':
+        return 'animate-scale-in';
+      default:
+        return 'animate-fade-in';
+    }
+  };
+
   return (
     <div
       className={cn(
-        isVisible ? `animate-${animation}` : 'opacity-0',
+        'transition-all duration-500',
+        getAnimationClass(),
         className
       )}
-      style={{ 
-        animationDelay: `${delay}ms`,
-        animationFillMode: 'forwards' 
+      style={{
+        transform: 
+          !isVisible && animation === 'slide-up' 
+            ? 'translateY(20px)' 
+            : !isVisible && animation === 'slide-in-right'
+            ? 'translateX(20px)'
+            : !isVisible && animation === 'scale-in'
+            ? 'scale(0.95)'
+            : 'none',
       }}
-      {...props}
     >
       {children}
     </div>
