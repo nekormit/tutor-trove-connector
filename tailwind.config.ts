@@ -66,6 +66,15 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				rmit: {
+					red: '#e60028',
+					darkRed: '#b3001e',
+					black: '#000000',
+					darkGray: '#2d2f35',
+					lightGray: '#f2f2f2',
+					blue: '#004c97',
+					gold: '#fdb515',
 				}
 			},
 			borderRadius: {

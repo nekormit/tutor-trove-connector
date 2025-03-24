@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, GraduationCap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/useAuth';
 import AnimatedContainer from '@/components/ui/AnimatedContainer';
@@ -36,11 +36,12 @@ const Header: React.FC = () => {
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
         <AnimatedContainer animation="fade-in" className="flex items-center gap-2">
+          <GraduationCap className="h-6 w-6 text-rmit-red" />
           <Link 
             to="/" 
             className="font-display text-xl font-semibold tracking-tight transition-colors"
           >
-            Tutor<span className="text-primary">Trove</span>
+            Tutor<span className="text-rmit-red">Trove</span>
           </Link>
         </AnimatedContainer>
 
@@ -48,8 +49,8 @@ const Header: React.FC = () => {
         <nav className="hidden md:flex items-center space-x-8">
           <AnimatedContainer animation="slide-down" delay={100}>
             <Link to="/" className={cn(
-              "text-sm font-medium transition-colors hover:text-primary",
-              location.pathname === "/" ? "text-primary" : "text-muted-foreground"
+              "text-sm font-medium transition-colors hover:text-rmit-red",
+              location.pathname === "/" ? "text-rmit-red" : "text-muted-foreground"
             )}>
               Home
             </Link>
@@ -58,8 +59,8 @@ const Header: React.FC = () => {
           {!isAuthenticated && (
             <AnimatedContainer animation="slide-down" delay={200}>
               <Link to="/signin" className={cn(
-                "text-sm font-medium transition-colors hover:text-primary",
-                location.pathname === "/signin" ? "text-primary" : "text-muted-foreground"
+                "text-sm font-medium transition-colors hover:text-rmit-red",
+                location.pathname === "/signin" ? "text-rmit-red" : "text-muted-foreground"
               )}>
                 Sign In
               </Link>
@@ -69,8 +70,8 @@ const Header: React.FC = () => {
           {isAuthenticated && userType === 'tutor' && (
             <AnimatedContainer animation="slide-down" delay={300}>
               <Link to="/tutor-dashboard" className={cn(
-                "text-sm font-medium transition-colors hover:text-primary",
-                location.pathname === "/tutor-dashboard" ? "text-primary" : "text-muted-foreground"
+                "text-sm font-medium transition-colors hover:text-rmit-red",
+                location.pathname === "/tutor-dashboard" ? "text-rmit-red" : "text-muted-foreground"
               )}>
                 Dashboard
               </Link>
@@ -80,8 +81,8 @@ const Header: React.FC = () => {
           {isAuthenticated && userType === 'lecturer' && (
             <AnimatedContainer animation="slide-down" delay={300}>
               <Link to="/lecturer-dashboard" className={cn(
-                "text-sm font-medium transition-colors hover:text-primary",
-                location.pathname === "/lecturer-dashboard" ? "text-primary" : "text-muted-foreground"
+                "text-sm font-medium transition-colors hover:text-rmit-red",
+                location.pathname === "/lecturer-dashboard" ? "text-rmit-red" : "text-muted-foreground"
               )}>
                 Dashboard
               </Link>
@@ -92,7 +93,7 @@ const Header: React.FC = () => {
             <AnimatedContainer animation="slide-down" delay={400}>
               <button 
                 onClick={logout}
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+                className="text-sm font-medium text-muted-foreground transition-colors hover:text-rmit-red"
               >
                 Sign Out
               </button>
@@ -117,8 +118,8 @@ const Header: React.FC = () => {
             <Link 
               to="/" 
               className={cn(
-                "text-sm font-medium transition-colors hover:text-primary",
-                location.pathname === "/" ? "text-primary" : "text-muted-foreground"
+                "text-sm font-medium transition-colors hover:text-rmit-red",
+                location.pathname === "/" ? "text-rmit-red" : "text-muted-foreground"
               )}
             >
               Home
@@ -128,8 +129,8 @@ const Header: React.FC = () => {
               <Link 
                 to="/signin" 
                 className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary",
-                  location.pathname === "/signin" ? "text-primary" : "text-muted-foreground"
+                  "text-sm font-medium transition-colors hover:text-rmit-red",
+                  location.pathname === "/signin" ? "text-rmit-red" : "text-muted-foreground"
                 )}
               >
                 Sign In
@@ -140,8 +141,8 @@ const Header: React.FC = () => {
               <Link 
                 to="/tutor-dashboard" 
                 className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary",
-                  location.pathname === "/tutor-dashboard" ? "text-primary" : "text-muted-foreground"
+                  "text-sm font-medium transition-colors hover:text-rmit-red",
+                  location.pathname === "/tutor-dashboard" ? "text-rmit-red" : "text-muted-foreground"
                 )}
               >
                 Dashboard
@@ -152,8 +153,8 @@ const Header: React.FC = () => {
               <Link 
                 to="/lecturer-dashboard" 
                 className={cn(
-                  "text-sm font-medium transition-colors hover:text-primary",
-                  location.pathname === "/lecturer-dashboard" ? "text-primary" : "text-muted-foreground"
+                  "text-sm font-medium transition-colors hover:text-rmit-red",
+                  location.pathname === "/lecturer-dashboard" ? "text-rmit-red" : "text-muted-foreground"
                 )}
               >
                 Dashboard
@@ -163,7 +164,7 @@ const Header: React.FC = () => {
             {isAuthenticated && (
               <button 
                 onClick={logout}
-                className="text-sm font-medium text-left text-muted-foreground transition-colors hover:text-primary"
+                className="text-sm font-medium text-left text-muted-foreground transition-colors hover:text-rmit-red"
               >
                 Sign Out
               </button>
