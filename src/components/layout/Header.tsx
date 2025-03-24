@@ -1,16 +1,14 @@
 
-'use client';
-
 import React, { useState } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, LogOut } from 'lucide-react';
-import { useAuth } from '@/contexts/auth-context';
+import { useAuth } from '@/hooks/useAuth';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isAuthenticated, userType, logout } = useAuth();
-  const pathname = usePathname();
+  const location = useLocation();
+  const pathname = location.pathname;
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
@@ -20,7 +18,7 @@ const Header: React.FC = () => {
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <Link href="/" className="flex items-center">
+            <Link to="/" className="flex items-center">
               <span className="font-display text-xl font-semibold tracking-tight">
                 Tutor<span className="text-rmit-red">Trove</span>
               </span>
@@ -30,7 +28,7 @@ const Header: React.FC = () => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-1">
             <Link
-              href="/"
+              to="/"
               className={`px-3 py-2 rounded-md text-sm font-medium ${
                 pathname === '/' 
                   ? 'text-rmit-red' 
@@ -43,7 +41,7 @@ const Header: React.FC = () => {
             {isAuthenticated ? (
               <>
                 <Link
-                  href={userType === 'tutor' ? '/tutor-dashboard' : '/lecturer-dashboard'}
+                  to={userType === 'tutor' ? '/tutor-dashboard' : '/lecturer-dashboard'}
                   className={`px-3 py-2 rounded-md text-sm font-medium ${
                     pathname === '/tutor-dashboard' || pathname === '/lecturer-dashboard'
                       ? 'text-rmit-red' 
@@ -63,7 +61,7 @@ const Header: React.FC = () => {
               </>
             ) : (
               <Link
-                href="/signin"
+                to="/signin"
                 className={`px-3 py-2 rounded-md text-sm font-medium ${
                   pathname === '/signin' 
                     ? 'text-rmit-red' 
@@ -96,7 +94,7 @@ const Header: React.FC = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-white pt-2 pb-3 space-y-1 shadow-lg">
           <Link
-            href="/"
+            to="/"
             onClick={closeMenu}
             className={`block px-3 py-2 rounded-md text-base font-medium ${
               pathname === '/' ? 'text-rmit-red' : 'text-gray-700 hover:text-rmit-red'
@@ -108,7 +106,7 @@ const Header: React.FC = () => {
           {isAuthenticated ? (
             <>
               <Link
-                href={userType === 'tutor' ? '/tutor-dashboard' : '/lecturer-dashboard'}
+                to={userType === 'tutor' ? '/tutor-dashboard' : '/lecturer-dashboard'}
                 onClick={closeMenu}
                 className={`block px-3 py-2 rounded-md text-base font-medium ${
                   pathname === '/tutor-dashboard' || pathname === '/lecturer-dashboard'
@@ -132,7 +130,7 @@ const Header: React.FC = () => {
             </>
           ) : (
             <Link
-              href="/signin"
+              to="/signin"
               onClick={closeMenu}
               className={`block px-3 py-2 rounded-md text-base font-medium ${
                 pathname === '/signin' ? 'text-rmit-red' : 'text-gray-700 hover:text-rmit-red'
